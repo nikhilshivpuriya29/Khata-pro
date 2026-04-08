@@ -131,6 +131,11 @@ TRANSLATIONS = {
         "lang_en": "English",
         "lang_hi": "हिन्दी",
 
+        # Account
+        "edit_account": "Edit Account",
+        "new_password": "New Password",
+        "leave_blank": "Leave blank to keep current password",
+
         # Communication
         "contact_customer": "Contact Customer",
         "call": "Call",
@@ -283,6 +288,11 @@ TRANSLATIONS = {
         "language": "भाषा",
         "lang_en": "English",
         "lang_hi": "हिन्दी",
+
+        # Account
+        "edit_account": "खाता संपादित करें",
+        "new_password": "नया पासवर्ड",
+        "leave_blank": "वर्तमान पासवर्ड रखने के लिए खाली छोड़ें",
 
         # Communication
         "contact_customer": "ग्राहक से संपर्क",

@@ -197,3 +197,28 @@ def delete_transaction(tid):
     db.session.commit()
     flash("Transaction deleted.", "warning")
     return redirect(url_for("main.customer_detail", cid=c.id))
+
+
+# ── Account ────────────────────────────────────────────────────
+
+@main_bp.route("/account")
+@login_required
+def account():
+    return render_template("account.html")
+
+
+@main_bp.route("/account/edit", methods=["GET", "POST"])
+@login_required
+def edit_account():
+    if request.method == "POST":
+        current_user.shop_name = request.form.get("shop_name", "").strip()
+        current_user.owner_name = request.form.get("owner_name", "").strip()
+        current_user.phone = request.form.get("phone", "").strip()
+        current_user.address = request.form.get("address", "").strip()
+        new_password = request.form.get("new_password", "").strip()
+        if new_password:
+            current_user.set_password(new_password)
+        db.session.commit()
+        flash("Account updated.", "success")
+        return redirect(url_for("main.account"))
+    return render_template("account_edit.html")

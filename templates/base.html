@@ -81,7 +81,7 @@
             <a class="nav-link {{ 'active' if 'report' in (request.endpoint or '') }}" href="{{ url_for('reports.reports_page') }}">
                 <i class="bi bi-bar-chart"></i>{{ t('reports') }}
             </a>
-            <a class="nav-link" href="{{ url_for('auth.logout') }}">
+            <a class="nav-link" href="{{ url_for('main.account') }}">
                 <i class="bi bi-person"></i>{{ t('account') }}
             </a>
         </nav>

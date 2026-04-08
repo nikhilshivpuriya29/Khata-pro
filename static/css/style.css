@@ -824,3 +824,18 @@ footer {
     .reminder-section { padding: 0.75rem; }
     .msg-text { font-size: 0.8rem; }
 }
+
+/* ── Account Page ───────────────────────────────────── */
+.account-avatar {
+    width: 72px;
+    height: 72px;
+    background: var(--gradient);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    font-size: 2rem;
+    color: #fff;
+    box-shadow: 0 8px 25px rgba(79, 70, 229, 0.3);
+}
