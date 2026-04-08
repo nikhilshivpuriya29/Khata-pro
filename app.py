@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for
+from flask import Flask, redirect, url_for, request, session
 from flask_login import LoginManager
 from flask_wtf.csrf import CSRFProtect
 from config import Config
@@ -6,6 +6,7 @@ from models import db, User
 from auth import auth_bp
 from routes import main_bp
 from reports import reports_bp
+from translations import TRANSLATIONS, get_text
 
 
 def create_app():
@@ -30,6 +31,21 @@ def create_app():
 
     with app.app_context():
         db.create_all()
+
+    # Language switch route
+    @app.route("/set-lang/<lang>")
+    def set_lang(lang):
+        if lang in TRANSLATIONS:
+            session["lang"] = lang
+        return redirect(request.referrer or url_for("main.dashboard"))
+
+    # Inject translation helper + lang into all templates
+    @app.context_processor
+    def inject_translations():
+        lang = session.get("lang", "en")
+        def t(key):
+            return get_text(lang, key)
+        return dict(t=t, current_lang=lang)
 
     # Jinja filters
     @app.template_filter("inr")

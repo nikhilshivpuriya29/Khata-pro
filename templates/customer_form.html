@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}{{ 'Edit' if customer else 'Add' }} Customer — Khata Pro{% endblock %}
+{% block title %}{{ t('edit_customer') if customer else t('add_customer') }} — {{ t('app_name') }}{% endblock %}
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-12 col-md-10 col-lg-8">
@@ -7,66 +7,47 @@
             <div class="card-body p-3 p-md-4">
                 <h4 class="fw-bold mb-4">
                     <i class="bi bi-person-{{ 'gear' if customer else 'plus' }} me-2"></i>
-                    {{ 'Edit' if customer else 'Add New' }} Customer
+                    {{ t('edit_customer') if customer else t('add_customer') }}
                 </h4>
                 <form method="POST">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-
-                    <h6 class="text-muted mb-3"><i class="bi bi-person me-1"></i>Personal Details</h6>
+                    <h6 class="text-muted mb-3"><i class="bi bi-person me-1"></i>{{ t('personal_details') }}</h6>
                     <div class="row g-3">
                         <div class="col-12 col-sm-6">
-                            <label class="form-label">Full Name <span class="text-danger">*</span></label>
-                            <input type="text" name="full_name" class="form-control" required value="{{ customer.full_name if customer else '' }}" placeholder="Customer's full name">
+                            <label class="form-label">{{ t('full_name') }} <span class="text-danger">*</span></label>
+                            <input type="text" name="full_name" class="form-control" required value="{{ customer.full_name if customer else '' }}">
                         </div>
                         <div class="col-12 col-sm-6">
-                            <label class="form-label">Father's Name</label>
-                            <input type="text" name="father_name" class="form-control" value="{{ customer.father_name if customer else '' }}" placeholder="Father's name">
+                            <label class="form-label">{{ t('father_name') }}</label>
+                            <input type="text" name="father_name" class="form-control" value="{{ customer.father_name if customer else '' }}">
                         </div>
                         <div class="col-12 col-sm-6">
-                            <label class="form-label">Phone Number</label>
-                            <input type="tel" name="phone" class="form-control" maxlength="15" value="{{ customer.phone if customer else '' }}" placeholder="Mobile number">
+                            <label class="form-label">{{ t('phone') }}</label>
+                            <input type="tel" name="phone" class="form-control" maxlength="15" value="{{ customer.phone if customer else '' }}">
                         </div>
                         <div class="col-12 col-sm-6">
-                            <label class="form-label">Aadhaar Number</label>
-                            <input type="text" name="aadhaar" class="form-control" maxlength="12" value="{{ customer.aadhaar if customer else '' }}" placeholder="12-digit Aadhaar" inputmode="numeric">
+                            <label class="form-label">{{ t('aadhaar') }}</label>
+                            <input type="text" name="aadhaar" class="form-control" maxlength="12" value="{{ customer.aadhaar if customer else '' }}" inputmode="numeric">
                         </div>
                     </div>
-
-                    <h6 class="text-muted mb-3 mt-4"><i class="bi bi-geo-alt me-1"></i>Address</h6>
+                    <h6 class="text-muted mb-3 mt-4"><i class="bi bi-geo-alt me-1"></i>{{ t('address') }}</h6>
                     <div class="row g-3">
-                        <div class="col-12">
-                            <label class="form-label">Street / Locality</label>
-                            <input type="text" name="address_street" class="form-control" value="{{ customer.address_street if customer else '' }}" placeholder="House no, street, locality">
-                        </div>
-                        <div class="col-6 col-md-4">
-                            <label class="form-label">City / Village</label>
-                            <input type="text" name="address_city" class="form-control" value="{{ customer.address_city if customer else '' }}">
-                        </div>
-                        <div class="col-6 col-md-4">
-                            <label class="form-label">District</label>
-                            <input type="text" name="address_district" class="form-control" value="{{ customer.address_district if customer else '' }}">
-                        </div>
+                        <div class="col-12"><label class="form-label">{{ t('street') }}</label><input type="text" name="address_street" class="form-control" value="{{ customer.address_street if customer else '' }}"></div>
+                        <div class="col-6 col-md-4"><label class="form-label">{{ t('city') }}</label><input type="text" name="address_city" class="form-control" value="{{ customer.address_city if customer else '' }}"></div>
+                        <div class="col-6 col-md-4"><label class="form-label">{{ t('district') }}</label><input type="text" name="address_district" class="form-control" value="{{ customer.address_district if customer else '' }}"></div>
                         <div class="col-8 col-md-4">
-                            <label class="form-label">State</label>
+                            <label class="form-label">{{ t('state') }}</label>
                             <select name="address_state" class="form-select">
-                                <option value="">Select</option>
+                                <option value="">{{ t('select_state') }}</option>
                                 {% set states = ['Andhra Pradesh','Arunachal Pradesh','Assam','Bihar','Chhattisgarh','Goa','Gujarat','Haryana','Himachal Pradesh','Jharkhand','Karnataka','Kerala','Madhya Pradesh','Maharashtra','Manipur','Meghalaya','Mizoram','Nagaland','Odisha','Punjab','Rajasthan','Sikkim','Tamil Nadu','Telangana','Tripura','Uttar Pradesh','Uttarakhand','West Bengal','Delhi','Jammu & Kashmir','Ladakh'] %}
-                                {% for s in states %}
-                                <option value="{{ s }}" {{ 'selected' if customer and customer.address_state == s }}>{{ s }}</option>
-                                {% endfor %}
+                                {% for s in states %}<option value="{{ s }}" {{ 'selected' if customer and customer.address_state == s }}>{{ s }}</option>{% endfor %}
                             </select>
                         </div>
-                        <div class="col-4 col-md-3">
-                            <label class="form-label">PIN Code</label>
-                            <input type="text" name="address_pin" class="form-control" maxlength="6" value="{{ customer.address_pin if customer else '' }}" inputmode="numeric">
-                        </div>
+                        <div class="col-4 col-md-3"><label class="form-label">{{ t('pin_code') }}</label><input type="text" name="address_pin" class="form-control" maxlength="6" value="{{ customer.address_pin if customer else '' }}" inputmode="numeric"></div>
                     </div>
-
                     <div class="d-flex gap-2 mt-4">
-                        <button type="submit" class="btn btn-primary btn-lg flex-grow-1">
-                            <i class="bi bi-check-lg me-1"></i>{{ 'Update' if customer else 'Add' }} Customer
-                        </button>
-                        <a href="{{ url_for('main.customers') }}" class="btn btn-outline-secondary btn-lg">Cancel</a>
+                        <button type="submit" class="btn btn-primary btn-lg flex-grow-1"><i class="bi bi-check-lg me-1"></i>{{ t('update') if customer else t('add_customer') }}</button>
+                        <a href="{{ url_for('main.customers') }}" class="btn btn-outline-secondary btn-lg">{{ t('cancel') }}</a>
                     </div>
                 </form>
             </div>

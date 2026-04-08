@@ -568,3 +568,191 @@ footer {
     font-size: 0.75rem;
     display: none;
 }
+
+/* ── Site Footer ────────────────────────────────────── */
+.site-footer {
+    margin-top: 3rem;
+    padding-bottom: 100px;
+    text-align: center;
+}
+
+@media (min-width: 769px) {
+    .site-footer { padding-bottom: 2rem; }
+}
+
+/* Donation Section */
+.donate-section {
+    background: linear-gradient(135deg, #ecfdf5, #f0fdf4, #dcfce7);
+    border: 1px solid #bbf7d0;
+    border-radius: 20px;
+    padding: 2rem 1.5rem;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.donate-section::before {
+    content: '🌱🌍🌳';
+    position: absolute;
+    top: -5px;
+    right: 10px;
+    font-size: 2rem;
+    opacity: 0.15;
+    letter-spacing: 8px;
+}
+
+.donate-icon {
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, #10b981, #059669);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-size: 1.5rem;
+    color: #fff;
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+    animation: gentlePulse 3s ease-in-out infinite;
+}
+
+@keyframes gentlePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.donate-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #065f46;
+    margin-bottom: 0.25rem;
+}
+
+.donate-msg {
+    color: #047857;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+}
+
+.upi-box {
+    display: inline-block;
+}
+
+.upi-label {
+    display: block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #6b7280;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.upi-id {
+    display: inline-flex;
+    align-items: center;
+    background: #fff;
+    border: 2px solid #a7f3d0;
+    border-radius: 12px;
+    padding: 0.6rem 1.2rem;
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #065f46;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: all;
+}
+
+.upi-id:hover {
+    border-color: #10b981;
+    background: #ecfdf5;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+.upi-id .copy-icon {
+    color: #10b981;
+    font-size: 0.85rem;
+}
+
+.upi-copied {
+    display: none;
+    color: #10b981;
+    font-weight: 600;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Footer Branding */
+.footer-brand {
+    padding-top: 1rem;
+}
+
+.footer-line {
+    width: 60px;
+    height: 3px;
+    background: var(--gradient);
+    border-radius: 2px;
+    margin: 0 auto 1.5rem;
+}
+
+.footer-logo {
+    margin-bottom: 0.5rem;
+}
+
+.footer-tt {
+    font-size: 1.4rem;
+    font-weight: 800;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.5px;
+}
+
+.footer-by {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-top: -2px;
+}
+
+.footer-rights {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    margin-top: 0.5rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.footer-dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 1rem;
+}
+
+.footer-dots span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gradient);
+    opacity: 0.4;
+}
+
+.footer-dots span:nth-child(2) {
+    opacity: 0.7;
+}
+
+.footer-dots span:nth-child(3) {
+    opacity: 1;
+}
+
+@media (max-width: 576px) {
+    .donate-section { padding: 1.5rem 1rem; border-radius: 16px; }
+    .footer-tt { font-size: 1.2rem; }
+    .upi-id { font-size: 0.9rem; padding: 0.5rem 1rem; }
+}

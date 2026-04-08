@@ -1,19 +1,16 @@
 {% extends "base.html" %}
-{% block title %}Reports — Khata Pro{% endblock %}
+{% block title %}{{ t('reports') }} — {{ t('app_name') }}{% endblock %}
 {% block content %}
-<div class="page-header">
-    <h3><i class="bi bi-bar-chart me-2"></i>Reports</h3>
-</div>
-
+<div class="page-header"><h3><i class="bi bi-bar-chart me-2"></i>{{ t('reports') }}</h3></div>
 <div class="row g-3 stagger">
     <div class="col-12 col-md-4">
         <div class="card report-card h-100">
             <div class="card-body p-4 text-center">
                 <div class="stat-icon bg-warning-subtle text-warning mx-auto mb-3"><i class="bi bi-cash-coin"></i></div>
-                <h6 class="fw-bold">Outstanding Report</h6>
-                <p class="text-muted small mb-3">All customers with pending dues</p>
+                <h6 class="fw-bold">{{ t('outstanding_report') }}</h6>
+                <p class="text-muted small mb-3">{{ t('all_customers_dues') }}</p>
                 <div class="d-flex gap-2 justify-content-center">
-                    <a href="{{ url_for('reports.outstanding_report') }}" class="btn btn-outline-primary btn-sm">View</a>
+                    <a href="{{ url_for('reports.outstanding_report') }}" class="btn btn-outline-primary btn-sm">{{ t('view') }}</a>
                     <a href="{{ url_for('reports.export_outstanding') }}" class="btn btn-outline-success btn-sm"><i class="bi bi-download me-1"></i>CSV</a>
                 </div>
             </div>
@@ -23,9 +20,9 @@
         <div class="card report-card h-100">
             <div class="card-body p-4 text-center">
                 <div class="stat-icon bg-danger-subtle text-danger mx-auto mb-3"><i class="bi bi-exclamation-triangle"></i></div>
-                <h6 class="fw-bold">Overdue Report</h6>
-                <p class="text-muted small mb-3">Missed promised repayment dates</p>
-                <a href="{{ url_for('reports.overdue_report') }}" class="btn btn-outline-primary btn-sm">View</a>
+                <h6 class="fw-bold">{{ t('overdue_report') }}</h6>
+                <p class="text-muted small mb-3">{{ t('missed_dates') }}</p>
+                <a href="{{ url_for('reports.overdue_report') }}" class="btn btn-outline-primary btn-sm">{{ t('view') }}</a>
             </div>
         </div>
     </div>
@@ -33,9 +30,9 @@
         <div class="card report-card h-100">
             <div class="card-body p-4 text-center">
                 <div class="stat-icon bg-info-subtle text-info mx-auto mb-3"><i class="bi bi-journal-text"></i></div>
-                <h6 class="fw-bold">Transaction Report</h6>
-                <p class="text-muted small mb-3">Filter by date range with export</p>
-                <a href="{{ url_for('reports.transaction_report') }}" class="btn btn-outline-primary btn-sm">View</a>
+                <h6 class="fw-bold">{{ t('transaction_report') }}</h6>
+                <p class="text-muted small mb-3">{{ t('filter_by_date') }}</p>
+                <a href="{{ url_for('reports.transaction_report') }}" class="btn btn-outline-primary btn-sm">{{ t('view') }}</a>
             </div>
         </div>
     </div>

@@ -1,37 +1,43 @@
 {% extends "base.html" %}
-{% block title %}Login — Khata Pro{% endblock %}
+{% block title %}{{ t('login') }} — {{ t('app_name') }}{% endblock %}
 {% block content %}
 <div class="row justify-content-center" style="min-height:80vh;align-items:center">
     <div class="col-11 col-sm-8 col-md-5 col-lg-4">
+        <!-- Language toggle for non-logged-in users -->
+        <div class="text-center mb-3">
+            <a href="/set-lang/{{ 'hi' if current_lang == 'en' else 'en' }}" class="btn btn-sm btn-outline-secondary">
+                {{ '🇮🇳 हिन्दी' if current_lang == 'en' else '🇬🇧 English' }}
+            </a>
+        </div>
         <div class="card auth-card">
             <div class="card-body">
                 <div class="text-center mb-4">
                     <div class="auth-logo"><i class="bi bi-journal-bookmark-fill"></i></div>
-                    <h4 class="fw-bold mt-2">Welcome Back</h4>
-                    <p class="text-muted small">Sign in to your Khata Pro account</p>
+                    <h4 class="fw-bold mt-2">{{ t('welcome_back') }}</h4>
+                    <p class="text-muted small">{{ t('sign_in_msg') }}</p>
                 </div>
                 <form method="POST">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <div class="mb-3">
-                        <label class="form-label">Username</label>
+                        <label class="form-label">{{ t('username') }}</label>
                         <div class="input-group">
                             <span class="input-group-text bg-light border-end-0"><i class="bi bi-person text-muted"></i></span>
-                            <input type="text" name="username" class="form-control border-start-0" placeholder="Enter username" required autofocus>
+                            <input type="text" name="username" class="form-control border-start-0" placeholder="{{ t('enter_username') }}" required autofocus>
                         </div>
                     </div>
                     <div class="mb-4">
-                        <label class="form-label">Password</label>
+                        <label class="form-label">{{ t('password') }}</label>
                         <div class="input-group">
                             <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock text-muted"></i></span>
-                            <input type="password" name="password" class="form-control border-start-0" placeholder="Enter password" required>
+                            <input type="password" name="password" class="form-control border-start-0" placeholder="{{ t('enter_password') }}" required>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary btn-lg w-100">
-                        <i class="bi bi-box-arrow-in-right me-2"></i>Login
+                        <i class="bi bi-box-arrow-in-right me-2"></i>{{ t('login') }}
                     </button>
                 </form>
                 <p class="text-center mt-3 mb-0 small">
-                    New here? <a href="{{ url_for('auth.register') }}" class="fw-semibold">Register your shop</a>
+                    {{ t('new_here') }} <a href="{{ url_for('auth.register') }}" class="fw-semibold">{{ t('register_shop') }}</a>
                 </p>
             </div>
         </div>

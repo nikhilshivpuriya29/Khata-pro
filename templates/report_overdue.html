@@ -1,53 +1,36 @@
 {% extends "base.html" %}
-{% block title %}Overdue Report — Khata Pro{% endblock %}
+{% block title %}{{ t('overdue_report') }} — {{ t('app_name') }}{% endblock %}
 {% block content %}
 <div class="page-header">
-    <h3><i class="bi bi-exclamation-triangle me-2"></i>Overdue Report</h3>
-    <a href="{{ url_for('reports.reports_page') }}" class="btn btn-outline-secondary btn-sm">Back</a>
+    <h3><i class="bi bi-exclamation-triangle me-2"></i>{{ t('overdue_report') }}</h3>
+    <a href="{{ url_for('reports.reports_page') }}" class="btn btn-outline-secondary btn-sm">{{ t('back') }}</a>
 </div>
-
-<!-- Desktop -->
 <div class="card border-0 shadow-sm d-none d-md-block">
-    <div class="card-body p-0">
-        <div class="table-responsive">
-            <table class="table table-hover mb-0">
-                <thead class="table-light">
-                    <tr><th>Customer</th><th>Item</th><th class="text-end">Amount</th><th>Promised</th><th>Overdue</th><th class="text-end">Total Due</th></tr>
-                </thead>
-                <tbody>
-                {% for item in overdue %}
-                <tr class="table-danger-subtle">
-                    <td><a href="{{ url_for('main.customer_detail', cid=item.customer.id) }}" class="text-decoration-none">{{ item.customer.full_name }}</a></td>
-                    <td>{{ item.txn.item_description or '—' }}</td>
-                    <td class="text-end">{{ item.txn.amount|inr }}</td>
-                    <td class="text-danger fw-semibold">{{ item.txn.promised_date.strftime('%d %b %Y') }}</td>
-                    <td><span class="badge bg-danger">{{ (today - item.txn.promised_date).days }} days</span></td>
-                    <td class="text-end text-danger fw-bold">{{ item.balance.total_due|inr }}</td>
-                </tr>
-                {% else %}
-                <tr><td colspan="6" class="text-center text-muted py-4">No overdue payments!</td></tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
+    <div class="card-body p-0"><div class="table-responsive">
+        <table class="table table-hover mb-0">
+            <thead class="table-light"><tr><th>{{ t('customer') }}</th><th>{{ t('item_note') }}</th><th class="text-end">{{ t('amount') }}</th><th>{{ t('promised_date') }}</th><th>{{ t('overdue') }}</th><th class="text-end">{{ t('total_amount_due') }}</th></tr></thead>
+            <tbody>
+            {% for item in overdue %}
+            <tr class="table-danger-subtle">
+                <td><a href="{{ url_for('main.customer_detail', cid=item.customer.id) }}" class="text-decoration-none">{{ item.customer.full_name }}</a></td>
+                <td>{{ item.txn.item_description or '—' }}</td>
+                <td class="text-end">{{ item.txn.amount|inr }}</td>
+                <td class="text-danger fw-semibold">{{ item.txn.promised_date.strftime('%d %b %Y') }}</td>
+                <td><span class="badge bg-danger">{{ (today - item.txn.promised_date).days }} {{ t('days_overdue') }}</span></td>
+                <td class="text-end text-danger fw-bold">{{ item.balance.total_due|inr }}</td>
+            </tr>
+            {% else %}<tr><td colspan="6" class="text-center text-muted py-4">{{ t('no_overdue') }}</td></tr>{% endfor %}
+            </tbody>
+        </table>
+    </div></div>
 </div>
-
-<!-- Mobile -->
 <div class="d-md-none">
     {% for item in overdue %}
     <a href="{{ url_for('main.customer_detail', cid=item.customer.id) }}" class="txn-card overdue d-block text-decoration-none text-dark">
-        <div class="d-flex justify-content-between align-items-start mb-1">
-            <div class="fw-bold">{{ item.customer.full_name }}</div>
-            <span class="badge bg-danger">{{ (today - item.txn.promised_date).days }}d overdue</span>
-        </div>
+        <div class="d-flex justify-content-between mb-1"><div class="fw-bold">{{ item.customer.full_name }}</div><span class="badge bg-danger">{{ (today - item.txn.promised_date).days }}d</span></div>
         <div class="small">{{ item.txn.item_description or '—' }} · {{ item.txn.amount|inr }}</div>
-        <div class="small text-muted mt-1">
-            Promised: {{ item.txn.promised_date.strftime('%d %b %Y') }} · Due: <span class="text-danger fw-bold">{{ item.balance.total_due|inr }}</span>
-        </div>
+        <div class="small text-muted mt-1">{{ t('promised_date') }}: {{ item.txn.promised_date.strftime('%d %b %Y') }}</div>
     </a>
-    {% else %}
-    <div class="empty-state"><i class="bi bi-check-circle d-block text-success"></i><p>No overdue payments. Great!</p></div>
-    {% endfor %}
+    {% else %}<div class="empty-state"><i class="bi bi-check-circle d-block text-success"></i><p>{{ t('no_overdue') }}</p></div>{% endfor %}
 </div>
 {% endblock %}

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Add {{ 'Credit' if txn_type == 'credit' else 'Payment' }} — Khata Pro{% endblock %}
+{% block title %}{{ t('add_credit') if txn_type == 'credit' else t('add_payment') }} — {{ t('app_name') }}{% endblock %}
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-12 col-md-8 col-lg-6">
@@ -8,57 +8,31 @@
                 <div class="d-flex align-items-center gap-3 mb-4">
                     {% if txn_type == 'credit' %}
                     <div class="stat-icon bg-danger-subtle text-danger"><i class="bi bi-arrow-up-circle-fill"></i></div>
-                    <div>
-                        <h5 class="fw-bold mb-0">Add Credit (Udhar Diya)</h5>
-                        <small class="text-muted">{{ customer.full_name }}</small>
-                    </div>
+                    <div><h5 class="fw-bold mb-0">{{ t('credit_udhar') }}</h5><small class="text-muted">{{ customer.full_name }}</small></div>
                     {% else %}
                     <div class="stat-icon bg-success-subtle text-success"><i class="bi bi-arrow-down-circle-fill"></i></div>
-                    <div>
-                        <h5 class="fw-bold mb-0">Add Payment (Payment Mila)</h5>
-                        <small class="text-muted">{{ customer.full_name }}</small>
-                    </div>
+                    <div><h5 class="fw-bold mb-0">{{ t('payment_mila') }}</h5><small class="text-muted">{{ customer.full_name }}</small></div>
                     {% endif %}
                 </div>
-
                 <form method="POST">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-
                     <div class="mb-3">
-                        <label class="form-label">Amount (₹) <span class="text-danger">*</span></label>
+                        <label class="form-label">{{ t('amount') }} (₹) <span class="text-danger">*</span></label>
                         <input type="number" name="amount" class="form-control form-control-lg" step="0.01" min="0.01" required autofocus inputmode="decimal" placeholder="0.00" style="font-size:1.5rem;font-weight:700">
                     </div>
-
                     {% if txn_type == 'credit' %}
-                    <div class="mb-3">
-                        <label class="form-label">Item / Purchase Description</label>
-                        <input type="text" name="item_description" class="form-control" placeholder="e.g. 2 bags cement, 5kg rice">
-                    </div>
+                    <div class="mb-3"><label class="form-label">{{ t('item_description') }}</label><input type="text" name="item_description" class="form-control" placeholder="e.g. 2 bags cement, 5kg rice"></div>
                     {% endif %}
-
                     <div class="row g-3">
-                        <div class="col-6">
-                            <label class="form-label">{{ 'Purchase' if txn_type == 'credit' else 'Payment' }} Date <span class="text-danger">*</span></label>
-                            <input type="date" name="purchase_date" class="form-control" required>
-                        </div>
+                        <div class="col-6"><label class="form-label">{{ t('purchase_date') if txn_type == 'credit' else t('payment_date') }} <span class="text-danger">*</span></label><input type="date" name="purchase_date" class="form-control" required></div>
                         {% if txn_type == 'credit' %}
-                        <div class="col-6">
-                            <label class="form-label">Promised Date</label>
-                            <input type="date" name="promised_date" class="form-control">
-                        </div>
+                        <div class="col-6"><label class="form-label">{{ t('promised_date') }}</label><input type="date" name="promised_date" class="form-control"></div>
                         {% endif %}
                     </div>
-
-                    <div class="mb-3 mt-3">
-                        <label class="form-label">Note / Remarks</label>
-                        <textarea name="note" class="form-control" rows="2" placeholder="Optional notes"></textarea>
-                    </div>
-
+                    <div class="mb-3 mt-3"><label class="form-label">{{ t('note') }}</label><textarea name="note" class="form-control" rows="2"></textarea></div>
                     <div class="d-flex gap-2 mt-4">
-                        <button type="submit" class="btn btn-{{ 'danger' if txn_type == 'credit' else 'success' }} btn-lg flex-grow-1">
-                            <i class="bi bi-check-lg me-1"></i>Record {{ 'Credit' if txn_type == 'credit' else 'Payment' }}
-                        </button>
-                        <a href="{{ url_for('main.customer_detail', cid=customer.id) }}" class="btn btn-outline-secondary btn-lg">Cancel</a>
+                        <button type="submit" class="btn btn-{{ 'danger' if txn_type == 'credit' else 'success' }} btn-lg flex-grow-1"><i class="bi bi-check-lg me-1"></i>{{ t('record_credit') if txn_type == 'credit' else t('record_payment') }}</button>
+                        <a href="{{ url_for('main.customer_detail', cid=customer.id) }}" class="btn btn-outline-secondary btn-lg">{{ t('cancel') }}</a>
                     </div>
                 </form>
             </div>
@@ -66,12 +40,6 @@
     </div>
 </div>
 {% endblock %}
-
 {% block scripts %}
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const today = new Date().toISOString().split('T')[0];
-    document.querySelectorAll('input[type="date"]').forEach(i => { if (!i.value) i.value = today; });
-});
-</script>
+<script>document.addEventListener('DOMContentLoaded',function(){const t=new Date().toISOString().split('T')[0];document.querySelectorAll('input[type="date"]').forEach(i=>{if(!i.value)i.value=t;});});</script>
 {% endblock %}

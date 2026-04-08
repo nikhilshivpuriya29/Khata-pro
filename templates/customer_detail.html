@@ -1,179 +1,96 @@
 {% extends "base.html" %}
-{% block title %}{{ customer.full_name }} — Khata Pro{% endblock %}
+{% block title %}{{ customer.full_name }} — {{ t('app_name') }}{% endblock %}
 {% block content %}
-<!-- Header -->
 <div class="page-header">
     <div>
         <h3 class="mb-0">{{ customer.full_name }}</h3>
-        <small class="text-muted">S/o {{ customer.father_name or 'N/A' }}</small>
+        <small class="text-muted">{{ t('son_of') }} {{ customer.father_name or 'N/A' }}</small>
     </div>
     <div class="d-flex gap-2 flex-wrap">
-        <a href="{{ url_for('main.add_credit', cid=customer.id) }}" class="btn btn-danger btn-sm">
-            <i class="bi bi-plus-lg me-1"></i>Credit
-        </a>
-        <a href="{{ url_for('main.add_payment', cid=customer.id) }}" class="btn btn-success btn-sm">
-            <i class="bi bi-plus-lg me-1"></i>Payment
-        </a>
-        <a href="{{ url_for('main.edit_customer', cid=customer.id) }}" class="btn btn-outline-secondary btn-sm">
-            <i class="bi bi-pencil"></i>
-        </a>
+        <a href="{{ url_for('main.add_credit', cid=customer.id) }}" class="btn btn-danger btn-sm"><i class="bi bi-plus-lg me-1"></i>{{ t('credit') }}</a>
+        <a href="{{ url_for('main.add_payment', cid=customer.id) }}" class="btn btn-success btn-sm"><i class="bi bi-plus-lg me-1"></i>{{ t('payment') }}</a>
+        <a href="{{ url_for('main.edit_customer', cid=customer.id) }}" class="btn btn-outline-secondary btn-sm"><i class="bi bi-pencil"></i></a>
     </div>
 </div>
 
-<!-- Customer Info -->
 <div class="card border-0 shadow-sm mb-3">
-    <div class="card-header"><i class="bi bi-person-vcard me-2"></i>Details</div>
+    <div class="card-header"><i class="bi bi-person-vcard me-2"></i>{{ t('customer_details') }}</div>
     <div class="card-body">
         <div class="row g-2">
-            <div class="col-6 col-md-3">
-                <div class="small text-muted">Phone</div>
-                <div class="fw-semibold">{{ customer.phone or 'N/A' }}</div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="small text-muted">Aadhaar</div>
-                <div class="fw-semibold">{{ customer.masked_aadhaar }}</div>
-            </div>
-            <div class="col-12 col-md-3">
-                <div class="small text-muted">Address</div>
-                <div class="fw-semibold small">{{ customer.full_address }}</div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="small text-muted">Since</div>
-                <div class="fw-semibold">{{ customer.created_at.strftime('%d %b %Y') }}</div>
-            </div>
+            <div class="col-6 col-md-3"><div class="small text-muted">{{ t('phone') }}</div><div class="fw-semibold">{{ customer.phone or 'N/A' }}</div></div>
+            <div class="col-6 col-md-3"><div class="small text-muted">{{ t('aadhaar') }}</div><div class="fw-semibold">{{ customer.masked_aadhaar }}</div></div>
+            <div class="col-12 col-md-3"><div class="small text-muted">{{ t('address') }}</div><div class="fw-semibold small">{{ customer.full_address }}</div></div>
+            <div class="col-6 col-md-3"><div class="small text-muted">{{ t('customer_since') }}</div><div class="fw-semibold">{{ customer.created_at.strftime('%d %b %Y') }}</div></div>
         </div>
     </div>
 </div>
 
-<!-- Balance Summary -->
 <div class="card border-0 shadow-sm mb-3">
-    <div class="card-header"><i class="bi bi-wallet2 me-2"></i>Balance</div>
+    <div class="card-header"><i class="bi bi-wallet2 me-2"></i>{{ t('balance_summary') }}</div>
     <div class="card-body">
         <div class="balance-grid mb-3">
-            <div class="balance-item">
-                <div class="label">Total Credit</div>
-                <div class="value text-danger">{{ balance.total_credit|inr }}</div>
-            </div>
-            <div class="balance-item">
-                <div class="label">Total Paid</div>
-                <div class="value text-success">{{ balance.total_debit|inr }}</div>
-            </div>
-            <div class="balance-item">
-                <div class="label">Principal</div>
-                <div class="value text-warning">{{ balance.principal_due|inr }}</div>
-            </div>
-            <div class="balance-item">
-                <div class="label">Interest 2%/mo</div>
-                <div class="value text-info">{{ balance.interest|inr }}</div>
-            </div>
+            <div class="balance-item"><div class="label">{{ t('total_credit') }}</div><div class="value text-danger">{{ balance.total_credit|inr }}</div></div>
+            <div class="balance-item"><div class="label">{{ t('total_paid') }}</div><div class="value text-success">{{ balance.total_debit|inr }}</div></div>
+            <div class="balance-item"><div class="label">{{ t('principal') }}</div><div class="value text-warning">{{ balance.principal_due|inr }}</div></div>
+            <div class="balance-item"><div class="label">{{ t('interest_2pct') }}</div><div class="value text-info">{{ balance.interest|inr }}</div></div>
         </div>
         <div class="total-due-banner">
-            <div class="small opacity-75">Total Amount Due</div>
+            <div class="small opacity-75">{{ t('total_amount_due') }}</div>
             <h2>{{ balance.total_due|inr }}</h2>
         </div>
     </div>
 </div>
 
-<!-- Ledger — Desktop Table -->
 <div class="card border-0 shadow-sm mb-3">
-    <div class="card-header"><i class="bi bi-journal-text me-2"></i>Transaction Ledger</div>
+    <div class="card-header"><i class="bi bi-journal-text me-2"></i>{{ t('transaction_ledger') }}</div>
     <div class="card-body p-0">
-        <!-- Desktop -->
         <div class="table-responsive d-none d-md-block">
             <table class="table table-hover mb-0">
                 <thead class="table-light">
-                    <tr>
-                        <th>Date</th><th>Type</th><th>Item / Note</th>
-                        <th class="text-end">Amount</th><th class="text-end">Interest</th>
-                        <th class="text-end">Balance</th><th>Promise</th><th></th>
-                    </tr>
+                    <tr><th>{{ t('date') }}</th><th>{{ t('type') }}</th><th>{{ t('item_note') }}</th><th class="text-end">{{ t('amount') }}</th><th class="text-end">{{ t('interest') }}</th><th class="text-end">{{ t('balance') }}</th><th>{{ t('promise') }}</th><th></th></tr>
                 </thead>
                 <tbody>
                 {% for entry in ledger %}
                 <tr class="{{ 'table-danger-subtle' if entry.is_overdue }}">
                     <td>{{ entry.txn.purchase_date.strftime('%d %b %Y') }}</td>
-                    <td><span class="badge {{ 'badge-credit' if entry.txn.txn_type == 'credit' else 'badge-payment' }}">{{ 'Credit' if entry.txn.txn_type == 'credit' else 'Paid' }}</span></td>
+                    <td><span class="badge {{ 'badge-credit' if entry.txn.txn_type == 'credit' else 'badge-payment' }}">{{ t('credit') if entry.txn.txn_type == 'credit' else t('paid') }}</span></td>
                     <td>{{ entry.txn.item_description or entry.txn.note or '—' }}</td>
                     <td class="text-end fw-semibold">{{ entry.txn.amount|inr }}</td>
                     <td class="text-end text-info">{{ entry.interest|inr if entry.txn.txn_type == 'credit' else '—' }}</td>
                     <td class="text-end fw-bold">{{ entry.running_balance|inr }}</td>
-                    <td>
-                        {% if entry.txn.promised_date %}
-                        <span class="{{ 'text-danger fw-bold' if entry.is_overdue }}">
-                            {{ entry.txn.promised_date.strftime('%d %b %Y') }}
-                            {% if entry.is_overdue %}<i class="bi bi-exclamation-circle-fill ms-1"></i>{% endif %}
-                        </span>
-                        {% else %}—{% endif %}
-                    </td>
-                    <td>
-                        <form method="POST" action="{{ url_for('main.delete_transaction', tid=entry.txn.id) }}" class="d-inline" onsubmit="return confirm('Delete this transaction?')">
-                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                            <button class="btn btn-sm btn-outline-danger border-0 p-1"><i class="bi bi-trash"></i></button>
-                        </form>
-                    </td>
+                    <td>{% if entry.txn.promised_date %}<span class="{{ 'text-danger fw-bold' if entry.is_overdue }}">{{ entry.txn.promised_date.strftime('%d %b %Y') }}{% if entry.is_overdue %} <i class="bi bi-exclamation-circle-fill"></i>{% endif %}</span>{% else %}—{% endif %}</td>
+                    <td><form method="POST" action="{{ url_for('main.delete_transaction', tid=entry.txn.id) }}" class="d-inline" onsubmit="return confirm('{{ t('delete_txn') }}')"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="btn btn-sm btn-outline-danger border-0 p-1"><i class="bi bi-trash"></i></button></form></td>
                 </tr>
-                {% else %}
-                <tr><td colspan="8" class="text-center text-muted py-4">No transactions yet.</td></tr>
-                {% endfor %}
+                {% else %}<tr><td colspan="8" class="text-center text-muted py-4">{{ t('no_txn_yet') }}</td></tr>{% endfor %}
                 </tbody>
             </table>
         </div>
-
-        <!-- Mobile Cards -->
         <div class="d-md-none p-3">
             {% for entry in ledger %}
             <div class="txn-card {{ 'overdue' if entry.is_overdue }}">
                 <div class="d-flex justify-content-between align-items-start mb-2">
                     <div>
-                        <span class="badge {{ 'badge-credit' if entry.txn.txn_type == 'credit' else 'badge-payment' }}">
-                            {{ 'Credit' if entry.txn.txn_type == 'credit' else 'Payment' }}
-                        </span>
+                        <span class="badge {{ 'badge-credit' if entry.txn.txn_type == 'credit' else 'badge-payment' }}">{{ t('credit') if entry.txn.txn_type == 'credit' else t('payment') }}</span>
                         <small class="text-muted ms-2">{{ entry.txn.purchase_date.strftime('%d %b %Y') }}</small>
                     </div>
-                    <span class="txn-amount {{ 'text-danger' if entry.txn.txn_type == 'credit' else 'text-success' }}">
-                        {{ entry.txn.amount|inr }}
-                    </span>
+                    <span class="txn-amount {{ 'text-danger' if entry.txn.txn_type == 'credit' else 'text-success' }}">{{ entry.txn.amount|inr }}</span>
                 </div>
-                {% if entry.txn.item_description or entry.txn.note %}
-                <div class="small text-muted mb-1">{{ entry.txn.item_description or entry.txn.note }}</div>
-                {% endif %}
+                {% if entry.txn.item_description or entry.txn.note %}<div class="small text-muted mb-1">{{ entry.txn.item_description or entry.txn.note }}</div>{% endif %}
                 <div class="d-flex justify-content-between align-items-center small">
-                    <div>
-                        <span class="text-muted">Balance:</span>
-                        <span class="fw-bold">{{ entry.running_balance|inr }}</span>
-                        {% if entry.txn.txn_type == 'credit' %}
-                        <span class="text-info ms-2">+{{ entry.interest|inr }} int.</span>
-                        {% endif %}
-                    </div>
-                    {% if entry.txn.promised_date %}
-                    <span class="{{ 'text-danger fw-bold' if entry.is_overdue else 'text-muted' }}">
-                        <i class="bi bi-calendar-event me-1"></i>{{ entry.txn.promised_date.strftime('%d %b') }}
-                        {% if entry.is_overdue %}<i class="bi bi-exclamation-circle-fill ms-1"></i>{% endif %}
-                    </span>
-                    {% endif %}
-                </div>
-                <div class="text-end mt-2">
-                    <form method="POST" action="{{ url_for('main.delete_transaction', tid=entry.txn.id) }}" class="d-inline" onsubmit="return confirm('Delete?')">
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                        <button class="btn btn-sm btn-outline-danger border-0 p-0"><i class="bi bi-trash small"></i></button>
-                    </form>
+                    <div><span class="text-muted">{{ t('balance') }}:</span> <span class="fw-bold">{{ entry.running_balance|inr }}</span>
+                    {% if entry.txn.txn_type == 'credit' %}<span class="text-info ms-2">+{{ entry.interest|inr }}</span>{% endif %}</div>
+                    {% if entry.txn.promised_date %}<span class="{{ 'text-danger fw-bold' if entry.is_overdue else 'text-muted' }}"><i class="bi bi-calendar-event me-1"></i>{{ entry.txn.promised_date.strftime('%d %b') }}</span>{% endif %}
                 </div>
             </div>
-            {% else %}
-            <div class="empty-state">
-                <i class="bi bi-journal d-block"></i>
-                <p>No transactions recorded yet.</p>
-            </div>
-            {% endfor %}
+            {% else %}<div class="empty-state"><i class="bi bi-journal d-block"></i><p>{{ t('no_txn_yet') }}</p></div>{% endfor %}
         </div>
     </div>
 </div>
 
-<!-- Delete Customer -->
 <div class="text-end">
-    <form method="POST" action="{{ url_for('main.delete_customer', cid=customer.id) }}" onsubmit="return confirm('Delete customer and ALL transactions?')">
+    <form method="POST" action="{{ url_for('main.delete_customer', cid=customer.id) }}" onsubmit="return confirm('{{ t('confirm_delete_customer') }}')">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-        <button class="btn btn-outline-danger btn-sm"><i class="bi bi-trash me-1"></i>Delete Customer</button>
+        <button class="btn btn-outline-danger btn-sm"><i class="bi bi-trash me-1"></i>{{ t('delete_customer') }}</button>
     </form>
 </div>
 {% endblock %}

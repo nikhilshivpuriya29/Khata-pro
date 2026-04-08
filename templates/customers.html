@@ -1,19 +1,16 @@
 {% extends "base.html" %}
-{% block title %}Customers — Khata Pro{% endblock %}
+{% block title %}{{ t('customers') }} — {{ t('app_name') }}{% endblock %}
 {% block content %}
 <div class="page-header">
-    <h3><i class="bi bi-people me-2"></i>Customers</h3>
-    <a href="{{ url_for('main.add_customer') }}" class="btn btn-primary d-none d-md-inline-flex">
-        <i class="bi bi-plus-lg me-1"></i>Add Customer
-    </a>
+    <h3><i class="bi bi-people me-2"></i>{{ t('customers') }}</h3>
+    <a href="{{ url_for('main.add_customer') }}" class="btn btn-primary d-none d-md-inline-flex"><i class="bi bi-plus-lg me-1"></i>{{ t('add_customer') }}</a>
 </div>
 
-<!-- Search -->
 <form method="GET" class="mb-4">
     <div class="search-bar d-flex align-items-center gap-2">
         <i class="bi bi-search text-muted ms-2"></i>
-        <input type="text" name="q" class="form-control" placeholder="Search by name, phone, or Aadhaar..." value="{{ q }}">
-        {% if q %}<a href="{{ url_for('main.customers') }}" class="btn btn-sm btn-outline-secondary flex-shrink-0">Clear</a>{% endif %}
+        <input type="text" name="q" class="form-control" placeholder="{{ t('search_placeholder') }}" value="{{ q }}">
+        {% if q %}<a href="{{ url_for('main.customers') }}" class="btn btn-sm btn-outline-secondary flex-shrink-0">{{ t('clear') }}</a>{% endif %}
     </div>
 </form>
 
@@ -27,12 +24,12 @@
                         <h6 class="fw-bold mb-0 text-truncate">
                             <a href="{{ url_for('main.customer_detail', cid=c.id) }}" class="text-decoration-none text-dark">{{ c.full_name }}</a>
                         </h6>
-                        <small class="text-muted">S/o {{ c.father_name or 'N/A' }}</small>
+                        <small class="text-muted">{{ t('son_of') }} {{ c.father_name or 'N/A' }}</small>
                     </div>
                     {% if balances[c.id].total_due > 0 %}
                     <span class="badge bg-danger ms-2">{{ balances[c.id].total_due|inr }}</span>
                     {% else %}
-                    <span class="badge bg-success ms-2">Clear</span>
+                    <span class="badge bg-success ms-2">{{ t('clear') }}</span>
                     {% endif %}
                 </div>
                 <div class="small text-muted mb-3">
@@ -40,15 +37,9 @@
                     <div class="text-truncate"><i class="bi bi-geo-alt me-1"></i>{{ c.address_city or 'N/A' }}{{ ', ' + c.address_state if c.address_state else '' }}</div>
                 </div>
                 <div class="customer-actions">
-                    <a href="{{ url_for('main.add_credit', cid=c.id) }}" class="btn btn-outline-danger btn-sm">
-                        <i class="bi bi-plus me-1"></i>Credit
-                    </a>
-                    <a href="{{ url_for('main.add_payment', cid=c.id) }}" class="btn btn-outline-success btn-sm">
-                        <i class="bi bi-plus me-1"></i>Payment
-                    </a>
-                    <a href="{{ url_for('main.customer_detail', cid=c.id) }}" class="btn btn-outline-primary btn-sm">
-                        <i class="bi bi-eye"></i>
-                    </a>
+                    <a href="{{ url_for('main.add_credit', cid=c.id) }}" class="btn btn-outline-danger btn-sm"><i class="bi bi-plus me-1"></i>{{ t('credit') }}</a>
+                    <a href="{{ url_for('main.add_payment', cid=c.id) }}" class="btn btn-outline-success btn-sm"><i class="bi bi-plus me-1"></i>{{ t('payment') }}</a>
+                    <a href="{{ url_for('main.customer_detail', cid=c.id) }}" class="btn btn-outline-primary btn-sm"><i class="bi bi-eye"></i></a>
                 </div>
             </div>
         </div>
@@ -57,8 +48,8 @@
     <div class="col-12">
         <div class="empty-state">
             <i class="bi bi-people d-block"></i>
-            <p>No customers yet. Add your first customer to get started.</p>
-            <a href="{{ url_for('main.add_customer') }}" class="btn btn-primary mt-3"><i class="bi bi-plus-lg me-1"></i>Add Customer</a>
+            <p>{{ t('no_customers') }}</p>
+            <a href="{{ url_for('main.add_customer') }}" class="btn btn-primary mt-3"><i class="bi bi-plus-lg me-1"></i>{{ t('add_customer') }}</a>
         </div>
     </div>
 {% endfor %}

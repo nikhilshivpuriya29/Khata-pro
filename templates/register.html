@@ -1,49 +1,54 @@
 {% extends "base.html" %}
-{% block title %}Register — Khata Pro{% endblock %}
+{% block title %}{{ t('register') }} — {{ t('app_name') }}{% endblock %}
 {% block content %}
 <div class="row justify-content-center py-3">
     <div class="col-11 col-sm-10 col-md-7 col-lg-5">
+        <div class="text-center mb-3">
+            <a href="/set-lang/{{ 'hi' if current_lang == 'en' else 'en' }}" class="btn btn-sm btn-outline-secondary">
+                {{ '🇮🇳 हिन्दी' if current_lang == 'en' else '🇬🇧 English' }}
+            </a>
+        </div>
         <div class="card auth-card">
             <div class="card-body">
                 <div class="text-center mb-4">
                     <div class="auth-logo"><i class="bi bi-shop"></i></div>
-                    <h4 class="fw-bold mt-2">Register Your Shop</h4>
-                    <p class="text-muted small">Create your Khata Pro account</p>
+                    <h4 class="fw-bold mt-2">{{ t('register_title') }}</h4>
+                    <p class="text-muted small">{{ t('create_account_msg') }}</p>
                 </div>
                 <form method="POST">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <div class="row g-3">
                         <div class="col-12 col-sm-6">
-                            <label class="form-label">Username</label>
-                            <input type="text" name="username" class="form-control" required placeholder="Choose a username">
+                            <label class="form-label">{{ t('username') }}</label>
+                            <input type="text" name="username" class="form-control" required>
                         </div>
                         <div class="col-12 col-sm-6">
-                            <label class="form-label">Password</label>
-                            <input type="password" name="password" class="form-control" required minlength="4" placeholder="Min 4 characters">
+                            <label class="form-label">{{ t('password') }}</label>
+                            <input type="password" name="password" class="form-control" required minlength="4">
                         </div>
                         <div class="col-12 col-sm-6">
-                            <label class="form-label">Shop Name</label>
-                            <input type="text" name="shop_name" class="form-control" required placeholder="e.g. Sharma General Store">
+                            <label class="form-label">{{ t('shop_name') }}</label>
+                            <input type="text" name="shop_name" class="form-control" required>
                         </div>
                         <div class="col-12 col-sm-6">
-                            <label class="form-label">Owner Name</label>
-                            <input type="text" name="owner_name" class="form-control" required placeholder="Your full name">
+                            <label class="form-label">{{ t('owner_name') }}</label>
+                            <input type="text" name="owner_name" class="form-control" required>
                         </div>
                         <div class="col-12 col-sm-6">
-                            <label class="form-label">Phone</label>
-                            <input type="tel" name="phone" class="form-control" maxlength="15" placeholder="Mobile number">
+                            <label class="form-label">{{ t('phone') }}</label>
+                            <input type="tel" name="phone" class="form-control" maxlength="15">
                         </div>
                         <div class="col-12">
-                            <label class="form-label">Shop Address</label>
-                            <textarea name="address" class="form-control" rows="2" placeholder="Full shop address"></textarea>
+                            <label class="form-label">{{ t('shop_address') }}</label>
+                            <textarea name="address" class="form-control" rows="2"></textarea>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary btn-lg w-100 mt-4">
-                        <i class="bi bi-check-circle me-2"></i>Create Account
+                        <i class="bi bi-check-circle me-2"></i>{{ t('create_account') }}
                     </button>
                 </form>
                 <p class="text-center mt-3 mb-0 small">
-                    Already registered? <a href="{{ url_for('auth.login') }}" class="fw-semibold">Login here</a>
+                    {{ t('already_registered') }} <a href="{{ url_for('auth.login') }}" class="fw-semibold">{{ t('login_here') }}</a>
                 </p>
             </div>
         </div>
