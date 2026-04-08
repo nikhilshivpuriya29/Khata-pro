@@ -55,6 +55,9 @@
             <a href="{{ url_for('main.edit_account') }}" class="btn btn-primary btn-lg">
                 <i class="bi bi-pencil me-2"></i>{{ t('edit_account') }}
             </a>
+            <a href="{{ url_for('bulk.import_page') }}" class="btn btn-outline-primary btn-lg">
+                <i class="bi bi-cloud-upload me-2"></i>{{ t('import_data') }}
+            </a>
             <!-- Language Toggle -->
             <a href="/set-lang/{{ 'hi' if current_lang == 'en' else 'en' }}" class="btn btn-outline-secondary btn-lg">
                 <i class="bi bi-translate me-2"></i>{{ '🇮🇳 हिन्दी में बदलें' if current_lang == 'en' else '🇬🇧 Switch to English' }}
