@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Outstanding Report — Khata Pro{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="fw-bold mb-0"><i class="bi bi-cash-coin me-2"></i>Outstanding Report</h3>
+    <div>
+        <a href="{{ url_for('reports.export_outstanding') }}" class="btn btn-success"><i class="bi bi-download me-1"></i>Export CSV</a>
+        <a href="{{ url_for('reports.reports_page') }}" class="btn btn-outline-secondary ms-1">Back</a>
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Customer</th><th>Phone</th>
+                        <th class="text-end">Total Credit</th><th class="text-end">Total Paid</th>
+                        <th class="text-end">Principal Due</th><th class="text-end">Interest</th>
+                        <th class="text-end">Total Due</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for item in data %}
+                    <tr>
+                        <td><a href="{{ url_for('main.customer_detail', cid=item.customer.id) }}">{{ item.customer.full_name }}</a></td>
+                        <td>{{ item.customer.phone or 'N/A' }}</td>
+                        <td class="text-end">{{ item.balance.total_credit|inr }}</td>
+                        <td class="text-end text-success">{{ item.balance.total_debit|inr }}</td>
+                        <td class="text-end text-warning fw-semibold">{{ item.balance.principal_due|inr }}</td>
+                        <td class="text-end text-info">{{ item.balance.interest|inr }}</td>
+                        <td class="text-end text-danger fw-bold">{{ item.balance.total_due|inr }}</td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="7" class="text-center text-muted py-4">No outstanding dues. All clear!</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

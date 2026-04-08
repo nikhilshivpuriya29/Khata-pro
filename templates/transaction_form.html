@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}Add {{ 'Credit' if txn_type == 'credit' else 'Payment' }} — Khata Pro{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+                <h4 class="fw-bold mb-1">
+                    {% if txn_type == 'credit' %}
+                    <i class="bi bi-arrow-up-circle text-danger me-2"></i>Add Credit (Udhar Diya)
+                    {% else %}
+                    <i class="bi bi-arrow-down-circle text-success me-2"></i>Add Payment (Payment Mila)
+                    {% endif %}
+                </h4>
+                <p class="text-muted mb-4">Customer: <strong>{{ customer.full_name }}</strong></p>
+
+                <form method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                    <div class="mb-3">
+                        <label class="form-label">Amount (₹) <span class="text-danger">*</span></label>
+                        <input type="number" name="amount" class="form-control form-control-lg" step="0.01" min="0.01" required autofocus>
+                    </div>
+
+                    {% if txn_type == 'credit' %}
+                    <div class="mb-3">
+                        <label class="form-label">Item / Purchase Description</label>
+                        <input type="text" name="item_description" class="form-control" placeholder="e.g. 2 bags cement, 5kg rice">
+                    </div>
+                    {% endif %}
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">{{ 'Purchase' if txn_type == 'credit' else 'Payment' }} Date <span class="text-danger">*</span></label>
+                            <input type="date" name="purchase_date" class="form-control" required value="{{ today }}">
+                        </div>
+                        {% if txn_type == 'credit' %}
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Promised Repayment Date</label>
+                            <input type="date" name="promised_date" class="form-control">
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Note / Remarks</label>
+                        <textarea name="note" class="form-control" rows="2"></textarea>
+                    </div>
+
+                    <div class="d-flex gap-2 mt-3">
+                        <button type="submit" class="btn btn-{{ 'danger' if txn_type == 'credit' else 'success' }} btn-lg">
+                            <i class="bi bi-check-lg me-1"></i>Record {{ 'Credit' if txn_type == 'credit' else 'Payment' }}
+                        </button>
+                        <a href="{{ url_for('main.customer_detail', cid=customer.id) }}" class="btn btn-outline-secondary btn-lg">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Set today's date as default
+    document.addEventListener('DOMContentLoaded', function() {
+        const dateInputs = document.querySelectorAll('input[type="date"]');
+        const today = new Date().toISOString().split('T')[0];
+        dateInputs.forEach(input => {
+            if (!input.value) input.value = today;
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if customer else 'Add' }} Customer — Khata Pro{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+                <h4 class="fw-bold mb-4">
+                    <i class="bi bi-person-{{ 'gear' if customer else 'plus' }} me-2"></i>
+                    {{ 'Edit' if customer else 'Add New' }} Customer
+                </h4>
+                <form method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                    <h6 class="text-muted mb-3"><i class="bi bi-person me-1"></i>Personal Details</h6>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Full Name <span class="text-danger">*</span></label>
+                            <input type="text" name="full_name" class="form-control" required value="{{ customer.full_name if customer else '' }}">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Father's Name</label>
+                            <input type="text" name="father_name" class="form-control" value="{{ customer.father_name if customer else '' }}">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Phone Number</label>
+                            <input type="text" name="phone" class="form-control" maxlength="15" value="{{ customer.phone if customer else '' }}">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Aadhaar Number</label>
+                            <input type="text" name="aadhaar" class="form-control" maxlength="12" placeholder="12-digit Aadhaar" value="{{ customer.aadhaar if customer else '' }}">
+                        </div>
+                    </div>
+
+                    <h6 class="text-muted mb-3 mt-2"><i class="bi bi-geo-alt me-1"></i>Address</h6>
+                    <div class="mb-3">
+                        <label class="form-label">Street / Locality</label>
+                        <input type="text" name="address_street" class="form-control" value="{{ customer.address_street if customer else '' }}">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">City / Village</label>
+                            <input type="text" name="address_city" class="form-control" value="{{ customer.address_city if customer else '' }}">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">District</label>
+                            <input type="text" name="address_district" class="form-control" value="{{ customer.address_district if customer else '' }}">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">State</label>
+                            <select name="address_state" class="form-select">
+                                <option value="">Select State</option>
+                                {% set states = ['Andhra Pradesh','Arunachal Pradesh','Assam','Bihar','Chhattisgarh','Goa','Gujarat','Haryana','Himachal Pradesh','Jharkhand','Karnataka','Kerala','Madhya Pradesh','Maharashtra','Manipur','Meghalaya','Mizoram','Nagaland','Odisha','Punjab','Rajasthan','Sikkim','Tamil Nadu','Telangana','Tripura','Uttar Pradesh','Uttarakhand','West Bengal','Delhi','Jammu & Kashmir','Ladakh'] %}
+                                {% for s in states %}
+                                <option value="{{ s }}" {{ 'selected' if customer and customer.address_state == s }}>{{ s }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">PIN Code</label>
+                            <input type="text" name="address_pin" class="form-control" maxlength="6" value="{{ customer.address_pin if customer else '' }}">
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2 mt-3">
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg me-1"></i>{{ 'Update' if customer else 'Add' }} Customer</button>
+                        <a href="{{ url_for('main.customers') }}" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
