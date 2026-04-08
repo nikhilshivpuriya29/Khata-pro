@@ -117,6 +117,7 @@
                 <h6 class="donate-title">🌿 {{ t('donate_title') }}</h6>
                 <p class="donate-msg">{{ t('donate_msg') }}</p>
                 <div class="upi-box">
+                    <img src="{{ url_for('static', filename='img/upi-qr.png') }}" alt="UPI QR Code" class="upi-qr-img mb-2">
                     <span class="upi-label">{{ t('scan_upi') }}</span>
                     <div class="upi-id" onclick="copyUPI()" title="Click to copy">
                         <i class="bi bi-phone me-1"></i>

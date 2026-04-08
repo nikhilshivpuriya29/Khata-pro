@@ -539,7 +539,7 @@ footer {
 }
 
 @media (max-width: 768px) {
-    footer { display: none; }
+    footer.site-footer { display: block; }
 }
 
 /* ── Empty State ────────────────────────────────────── */
@@ -636,6 +636,22 @@ footer {
 
 .upi-box {
     display: inline-block;
+}
+
+.upi-qr-img {
+    display: block;
+    width: 160px;
+    height: 160px;
+    margin: 0 auto;
+    border-radius: 12px;
+    border: 3px solid #a7f3d0;
+    background: #fff;
+    padding: 6px;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.15);
+}
+
+@media (max-width: 576px) {
+    .upi-qr-img { width: 140px; height: 140px; }
 }
 
 .upi-label {
