@@ -1,37 +1,41 @@
 {% extends "base.html" %}
 {% block title %}Reports — Khata Pro{% endblock %}
 {% block content %}
-<h3 class="fw-bold mb-4"><i class="bi bi-file-earmark-bar-graph me-2"></i>Reports</h3>
+<div class="page-header">
+    <h3><i class="bi bi-bar-chart me-2"></i>Reports</h3>
+</div>
 
-<div class="row g-3">
-    <div class="col-md-4">
-        <div class="card border-0 shadow-sm h-100 report-card">
-            <div class="card-body text-center p-4">
-                <i class="bi bi-cash-coin display-4 text-warning mb-3"></i>
-                <h5 class="fw-semibold">Outstanding Report</h5>
-                <p class="text-muted small">All customers with pending dues, principal + interest breakdown</p>
-                <a href="{{ url_for('reports.outstanding_report') }}" class="btn btn-outline-primary">View Report</a>
-                <a href="{{ url_for('reports.export_outstanding') }}" class="btn btn-outline-success ms-1"><i class="bi bi-download me-1"></i>CSV</a>
+<div class="row g-3 stagger">
+    <div class="col-12 col-md-4">
+        <div class="card report-card h-100">
+            <div class="card-body p-4 text-center">
+                <div class="stat-icon bg-warning-subtle text-warning mx-auto mb-3"><i class="bi bi-cash-coin"></i></div>
+                <h6 class="fw-bold">Outstanding Report</h6>
+                <p class="text-muted small mb-3">All customers with pending dues</p>
+                <div class="d-flex gap-2 justify-content-center">
+                    <a href="{{ url_for('reports.outstanding_report') }}" class="btn btn-outline-primary btn-sm">View</a>
+                    <a href="{{ url_for('reports.export_outstanding') }}" class="btn btn-outline-success btn-sm"><i class="bi bi-download me-1"></i>CSV</a>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-4">
-        <div class="card border-0 shadow-sm h-100 report-card">
-            <div class="card-body text-center p-4">
-                <i class="bi bi-exclamation-triangle display-4 text-danger mb-3"></i>
-                <h5 class="fw-semibold">Overdue Report</h5>
-                <p class="text-muted small">Customers who missed their promised repayment date</p>
-                <a href="{{ url_for('reports.overdue_report') }}" class="btn btn-outline-primary">View Report</a>
+    <div class="col-12 col-md-4">
+        <div class="card report-card h-100">
+            <div class="card-body p-4 text-center">
+                <div class="stat-icon bg-danger-subtle text-danger mx-auto mb-3"><i class="bi bi-exclamation-triangle"></i></div>
+                <h6 class="fw-bold">Overdue Report</h6>
+                <p class="text-muted small mb-3">Missed promised repayment dates</p>
+                <a href="{{ url_for('reports.overdue_report') }}" class="btn btn-outline-primary btn-sm">View</a>
             </div>
         </div>
     </div>
-    <div class="col-md-4">
-        <div class="card border-0 shadow-sm h-100 report-card">
-            <div class="card-body text-center p-4">
-                <i class="bi bi-journal-text display-4 text-info mb-3"></i>
-                <h5 class="fw-semibold">Transaction Report</h5>
-                <p class="text-muted small">All transactions filtered by date range with CSV export</p>
-                <a href="{{ url_for('reports.transaction_report') }}" class="btn btn-outline-primary">View Report</a>
+    <div class="col-12 col-md-4">
+        <div class="card report-card h-100">
+            <div class="card-body p-4 text-center">
+                <div class="stat-icon bg-info-subtle text-info mx-auto mb-3"><i class="bi bi-journal-text"></i></div>
+                <h6 class="fw-bold">Transaction Report</h6>
+                <p class="text-muted small mb-3">Filter by date range with export</p>
+                <a href="{{ url_for('reports.transaction_report') }}" class="btn btn-outline-primary btn-sm">View</a>
             </div>
         </div>
     </div>

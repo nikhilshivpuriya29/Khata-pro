@@ -1,56 +1,65 @@
 {% extends "base.html" %}
 {% block title %}Customers — Khata Pro{% endblock %}
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h3 class="fw-bold mb-0"><i class="bi bi-people me-2"></i>Customers</h3>
-    <a href="{{ url_for('main.add_customer') }}" class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i>Add Customer</a>
+<div class="page-header">
+    <h3><i class="bi bi-people me-2"></i>Customers</h3>
+    <a href="{{ url_for('main.add_customer') }}" class="btn btn-primary d-none d-md-inline-flex">
+        <i class="bi bi-plus-lg me-1"></i>Add Customer
+    </a>
 </div>
 
-<form class="mb-4" method="GET">
-    <div class="input-group">
-        <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+<!-- Search -->
+<form method="GET" class="mb-4">
+    <div class="search-bar d-flex align-items-center gap-2">
+        <i class="bi bi-search text-muted ms-2"></i>
         <input type="text" name="q" class="form-control" placeholder="Search by name, phone, or Aadhaar..." value="{{ q }}">
-        <button class="btn btn-outline-primary" type="submit">Search</button>
-        {% if q %}<a href="{{ url_for('main.customers') }}" class="btn btn-outline-secondary">Clear</a>{% endif %}
+        {% if q %}<a href="{{ url_for('main.customers') }}" class="btn btn-sm btn-outline-secondary flex-shrink-0">Clear</a>{% endif %}
     </div>
 </form>
 
-<div class="row g-3">
+<div class="row g-3 stagger">
 {% for c in customers %}
-    <div class="col-md-6 col-lg-4">
-        <div class="card border-0 shadow-sm h-100 customer-card">
+    <div class="col-12 col-sm-6 col-lg-4">
+        <div class="card customer-card h-100">
             <div class="card-body">
-                <div class="d-flex justify-content-between align-items-start">
-                    <div>
-                        <h5 class="fw-semibold mb-1">
-                            <a href="{{ url_for('main.customer_detail', cid=c.id) }}" class="text-decoration-none">{{ c.full_name }}</a>
-                        </h5>
-                        <small class="text-muted"><i class="bi bi-person me-1"></i>S/o {{ c.father_name or 'N/A' }}</small>
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <div class="flex-grow-1 min-width-0">
+                        <h6 class="fw-bold mb-0 text-truncate">
+                            <a href="{{ url_for('main.customer_detail', cid=c.id) }}" class="text-decoration-none text-dark">{{ c.full_name }}</a>
+                        </h6>
+                        <small class="text-muted">S/o {{ c.father_name or 'N/A' }}</small>
                     </div>
-                    <div class="text-end">
-                        {% if balances[c.id].total_due > 0 %}
-                        <span class="badge bg-danger fs-6">{{ balances[c.id].total_due|inr }}</span>
-                        {% else %}
-                        <span class="badge bg-success fs-6">Clear</span>
-                        {% endif %}
-                    </div>
+                    {% if balances[c.id].total_due > 0 %}
+                    <span class="badge bg-danger ms-2">{{ balances[c.id].total_due|inr }}</span>
+                    {% else %}
+                    <span class="badge bg-success ms-2">Clear</span>
+                    {% endif %}
                 </div>
-                <hr class="my-2">
-                <div class="small text-muted">
-                    <div><i class="bi bi-telephone me-1"></i>{{ c.phone or 'N/A' }}</div>
-                    <div><i class="bi bi-geo-alt me-1"></i>{{ c.address_city or 'N/A' }}, {{ c.address_state or '' }}</div>
+                <div class="small text-muted mb-3">
+                    <div class="text-truncate"><i class="bi bi-telephone me-1"></i>{{ c.phone or 'N/A' }}</div>
+                    <div class="text-truncate"><i class="bi bi-geo-alt me-1"></i>{{ c.address_city or 'N/A' }}{{ ', ' + c.address_state if c.address_state else '' }}</div>
                 </div>
-            </div>
-            <div class="card-footer bg-white border-0 pt-0">
-                <a href="{{ url_for('main.add_credit', cid=c.id) }}" class="btn btn-sm btn-outline-danger me-1"><i class="bi bi-plus"></i> Credit</a>
-                <a href="{{ url_for('main.add_payment', cid=c.id) }}" class="btn btn-sm btn-outline-success"><i class="bi bi-plus"></i> Payment</a>
+                <div class="customer-actions">
+                    <a href="{{ url_for('main.add_credit', cid=c.id) }}" class="btn btn-outline-danger btn-sm">
+                        <i class="bi bi-plus me-1"></i>Credit
+                    </a>
+                    <a href="{{ url_for('main.add_payment', cid=c.id) }}" class="btn btn-outline-success btn-sm">
+                        <i class="bi bi-plus me-1"></i>Payment
+                    </a>
+                    <a href="{{ url_for('main.customer_detail', cid=c.id) }}" class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-eye"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 {% else %}
-    <div class="col-12 text-center py-5">
-        <i class="bi bi-people display-1 text-muted"></i>
-        <p class="text-muted mt-2">No customers yet. Add your first customer to get started.</p>
+    <div class="col-12">
+        <div class="empty-state">
+            <i class="bi bi-people d-block"></i>
+            <p>No customers yet. Add your first customer to get started.</p>
+            <a href="{{ url_for('main.add_customer') }}" class="btn btn-primary mt-3"><i class="bi bi-plus-lg me-1"></i>Add Customer</a>
+        </div>
     </div>
 {% endfor %}
 </div>

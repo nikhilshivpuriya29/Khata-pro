@@ -1,29 +1,37 @@
 {% extends "base.html" %}
 {% block title %}Login — Khata Pro{% endblock %}
 {% block content %}
-<div class="row justify-content-center mt-5">
-    <div class="col-md-5">
-        <div class="card shadow-lg border-0">
-            <div class="card-body p-5">
+<div class="row justify-content-center" style="min-height:80vh;align-items:center">
+    <div class="col-11 col-sm-8 col-md-5 col-lg-4">
+        <div class="card auth-card">
+            <div class="card-body">
                 <div class="text-center mb-4">
-                    <i class="bi bi-journal-bookmark-fill display-3 text-primary"></i>
-                    <h2 class="mt-2 fw-bold">Khata Pro</h2>
-                    <p class="text-muted">Credit-Debit Management System</p>
+                    <div class="auth-logo"><i class="bi bi-journal-bookmark-fill"></i></div>
+                    <h4 class="fw-bold mt-2">Welcome Back</h4>
+                    <p class="text-muted small">Sign in to your Khata Pro account</p>
                 </div>
                 <form method="POST">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <div class="mb-3">
                         <label class="form-label">Username</label>
-                        <input type="text" name="username" class="form-control form-control-lg" required autofocus>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0"><i class="bi bi-person text-muted"></i></span>
+                            <input type="text" name="username" class="form-control border-start-0" placeholder="Enter username" required autofocus>
+                        </div>
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-4">
                         <label class="form-label">Password</label>
-                        <input type="password" name="password" class="form-control form-control-lg" required>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock text-muted"></i></span>
+                            <input type="password" name="password" class="form-control border-start-0" placeholder="Enter password" required>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-lg w-100 mt-2">Login</button>
+                    <button type="submit" class="btn btn-primary btn-lg w-100">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Login
+                    </button>
                 </form>
-                <p class="text-center mt-3 mb-0">
-                    New here? <a href="{{ url_for('auth.register') }}">Register your shop</a>
+                <p class="text-center mt-3 mb-0 small">
+                    New here? <a href="{{ url_for('auth.register') }}" class="fw-semibold">Register your shop</a>
                 </p>
             </div>
         </div>
