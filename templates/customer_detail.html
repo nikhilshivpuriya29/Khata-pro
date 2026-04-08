@@ -41,6 +41,47 @@
     </div>
 </div>
 
+<!-- Contact & Reminder Section -->
+<div class="card border-0 shadow-sm mb-3 contact-card">
+    <div class="card-header"><i class="bi bi-chat-dots me-2"></i>{{ t('contact_customer') }}</div>
+    <div class="card-body">
+        {% if customer.phone %}
+        <div class="d-flex gap-2 mb-3 flex-wrap">
+            <a href="tel:+91{{ customer.phone }}" class="btn btn-outline-primary flex-fill">
+                <i class="bi bi-telephone-fill me-1"></i>{{ t('call') }}
+            </a>
+            <a href="sms:+91{{ customer.phone }}" class="btn btn-outline-info flex-fill" id="smsBtn">
+                <i class="bi bi-chat-left-text-fill me-1"></i>{{ t('sms') }}
+            </a>
+            <a href="#" class="btn btn-success flex-fill" id="whatsappBtn">
+                <i class="bi bi-whatsapp me-1"></i>{{ t('whatsapp') }}
+            </a>
+        </div>
+        <div class="reminder-section">
+            <h6 class="fw-semibold mb-2"><i class="bi bi-envelope-paper me-1"></i>{{ t('send_reminder') }}</h6>
+            <div class="d-flex gap-2 mb-3">
+                <button class="btn btn-sm btn-outline-secondary active" onclick="setTemplate('en')" id="tplEnBtn">🇬🇧 {{ t('english_template') }}</button>
+                <button class="btn btn-sm btn-outline-secondary" onclick="setTemplate('hi')" id="tplHiBtn">🇮🇳 {{ t('hindi_template') }}</button>
+            </div>
+            <div class="msg-box" id="msgBox">
+                <div class="msg-text" id="msgText"></div>
+            </div>
+            <div class="d-flex gap-2 mt-2 flex-wrap">
+                <button class="btn btn-sm btn-outline-dark" onclick="copyMessage()"><i class="bi bi-clipboard me-1"></i>{{ t('copy_msg') }}</button>
+                <a href="#" class="btn btn-sm btn-success" id="waMsgBtn"><i class="bi bi-whatsapp me-1"></i>{{ t('whatsapp') }}</a>
+                <a href="#" class="btn btn-sm btn-outline-info" id="smsMsgBtn"><i class="bi bi-chat-left-text me-1"></i>{{ t('sms') }}</a>
+                <span class="text-success small fw-semibold align-self-center" id="copiedMsg" style="display:none">✓ {{ t('msg_copied') }}</span>
+            </div>
+        </div>
+        {% else %}
+        <div class="text-center text-muted py-3">
+            <i class="bi bi-telephone-x display-6 d-block mb-2"></i>
+            <p>{{ t('no_phone') }}</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
 <div class="card border-0 shadow-sm mb-3">
     <div class="card-header"><i class="bi bi-journal-text me-2"></i>{{ t('transaction_ledger') }}</div>
     <div class="card-body p-0">
@@ -93,4 +134,61 @@
         <button class="btn btn-outline-danger btn-sm"><i class="bi bi-trash me-1"></i>{{ t('delete_customer') }}</button>
     </form>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const customerData = {
+    name: "{{ customer.full_name }}",
+    phone: "{{ customer.phone or '' }}",
+    totalDue: "{{ balance.total_due }}",
+    principal: "{{ balance.principal_due }}",
+    interest: "{{ balance.interest }}",
+    promisedDate: "{{ nearest_promised.strftime('%d %b %Y') if nearest_promised else 'N/A' }}",
+    shop: "{{ shop_name }}"
+};
+
+const templates = {
+    en: `Dear ${customerData.name}, this is a reminder from ${customerData.shop}. Your outstanding amount is Rs.${customerData.totalDue} (Principal: Rs.${customerData.principal}, Interest: Rs.${customerData.interest}). You had promised to return the amount by ${customerData.promisedDate}. Kindly clear your dues at the earliest. Thank you.`,
+    hi: `प्रिय ${customerData.name}, यह ${customerData.shop} से एक याद दिलाने वाला संदेश है। आपकी बकाया राशि Rs.${customerData.totalDue} है (मूलधन: Rs.${customerData.principal}, ब्याज: Rs.${customerData.interest})। आपने ${customerData.promisedDate} तक राशि वापस करने का वादा किया था। कृपया जल्द से जल्द अपना बकाया चुकाएं। धन्यवाद।`
+};
+
+let currentTemplate = 'en';
+
+function setTemplate(lang) {
+    currentTemplate = lang;
+    document.getElementById('msgText').textContent = templates[lang];
+    document.getElementById('tplEnBtn').classList.toggle('active', lang === 'en');
+    document.getElementById('tplHiBtn').classList.toggle('active', lang === 'hi');
+    updateLinks();
+}
+
+function updateLinks() {
+    const msg = encodeURIComponent(templates[currentTemplate]);
+    const phone = customerData.phone.replace(/\D/g, '');
+    const intlPhone = phone.startsWith('91') ? phone : '91' + phone;
+
+    const waUrl = `https://wa.me/${intlPhone}?text=${msg}`;
+    const el1 = document.getElementById('whatsappBtn');
+    const el2 = document.getElementById('waMsgBtn');
+    if (el1) el1.href = waUrl;
+    if (el2) el2.href = waUrl;
+
+    const smsUrl = `sms:+${intlPhone}?body=${msg}`;
+    const el3 = document.getElementById('smsBtn');
+    const el4 = document.getElementById('smsMsgBtn');
+    if (el3) el3.href = `sms:+${intlPhone}`;
+    if (el4) el4.href = smsUrl;
+}
+
+function copyMessage() {
+    navigator.clipboard.writeText(templates[currentTemplate]).then(() => {
+        const el = document.getElementById('copiedMsg');
+        el.style.display = 'inline';
+        setTimeout(() => { el.style.display = 'none'; }, 2500);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() { setTemplate('en'); });
+</script>
 {% endblock %}

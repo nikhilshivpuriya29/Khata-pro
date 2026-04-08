@@ -131,6 +131,21 @@ TRANSLATIONS = {
         "lang_en": "English",
         "lang_hi": "हिन्दी",
 
+        # Communication
+        "contact_customer": "Contact Customer",
+        "call": "Call",
+        "sms": "SMS",
+        "whatsapp": "WhatsApp",
+        "send_reminder": "Send Reminder",
+        "reminder_template_en": "Dear {name}, this is a reminder from {shop}. Your outstanding amount is Rs.{total_due}. You had promised to return the amount by {promised_date}. Kindly clear your dues at the earliest. Thank you.",
+        "reminder_template_hi": "प्रिय {name}, यह {shop} से एक याद दिलाने वाला संदेश है। आपकी बकाया राशि Rs.{total_due} है )। आपने {promised_date} तक राशि वापस करने का वादा किया था। कृपया जल्द से जल्द अपना बकाया चुकाएं। धन्यवाद।",
+        "no_phone": "No phone number available",
+        "choose_template": "Choose Template",
+        "english_template": "English Template",
+        "hindi_template": "Hindi Template",
+        "copy_msg": "Copy Message",
+        "msg_copied": "Message copied!",
+
         # Misc
         "confirm_delete_customer": "Delete customer and ALL transactions?",
         "select_state": "Select State",
@@ -268,6 +283,21 @@ TRANSLATIONS = {
         "language": "भाषा",
         "lang_en": "English",
         "lang_hi": "हिन्दी",
+
+        # Communication
+        "contact_customer": "ग्राहक से संपर्क",
+        "call": "कॉल",
+        "sms": "SMS",
+        "whatsapp": "WhatsApp",
+        "send_reminder": "रिमाइंडर भेजें",
+        "reminder_template_en": "Dear {name}, this is a reminder from {shop}. Your outstanding amount is Rs.{total_due} (Principal: Rs.{principal}, Interest: Rs.{interest}). You had promised to return the amount by {promised_date}. Kindly clear your dues at the earliest. Thank you.",
+        "reminder_template_hi": "प्रिय {name}, यह {shop} से एक याद दिलाने वाला संदेश है। आपकी बकाया राशि Rs.{total_due} है (मूलधन: Rs.{principal}, ब्याज: Rs.{interest})। आपने {promised_date} तक राशि वापस करने का वादा किया था। कृपया जल्द से जल्द अपना बकाया चुकाएं। धन्यवाद।",
+        "no_phone": "फ़ोन नंबर उपलब्ध नहीं",
+        "choose_template": "टेम्पलेट चुनें",
+        "english_template": "English Template",
+        "hindi_template": "हिन्दी टेम्पलेट",
+        "copy_msg": "संदेश कॉपी करें",
+        "msg_copied": "संदेश कॉपी हो गया!",
 
         # Misc
         "confirm_delete_customer": "ग्राहक और सभी लेन-देन हटाएं?",

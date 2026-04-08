@@ -130,7 +130,20 @@ def customer_detail(cid):
     c = Customer.query.filter_by(id=cid, user_id=current_user.id).first_or_404()
     balance = get_customer_balance(c)
     ledger = get_ledger_with_balance(c.transactions)
-    return render_template("customer_detail.html", customer=c, balance=balance, ledger=ledger)
+
+    # Find nearest promised date from unpaid credit transactions
+    promised_dates = [
+        txn.promised_date for txn in c.transactions
+        if txn.txn_type == "credit" and txn.promised_date
+    ]
+    nearest_promised = min(promised_dates, default=None, key=lambda d: abs((d - date.today()).days))
+
+    return render_template(
+        "customer_detail.html",
+        customer=c, balance=balance, ledger=ledger,
+        nearest_promised=nearest_promised,
+        shop_name=current_user.shop_name,
+    )
 
 
 # ── Transactions ───────────────────────────────────────────────

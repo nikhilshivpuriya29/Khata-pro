@@ -756,3 +756,71 @@ footer {
     .footer-tt { font-size: 1.2rem; }
     .upi-id { font-size: 0.9rem; padding: 0.5rem 1rem; }
 }
+
+/* ── Contact & Reminder Section ─────────────────────── */
+.contact-card {
+    border-top: 3px solid var(--primary) !important;
+}
+
+.contact-card .btn {
+    min-height: 48px;
+    font-size: 0.9rem;
+}
+
+.contact-card .btn i {
+    font-size: 1.1rem;
+}
+
+.reminder-section {
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    padding: 1rem;
+    margin-top: 0.5rem;
+}
+
+.msg-box {
+    background: #fff;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-xs);
+    padding: 1rem;
+    max-height: 200px;
+    overflow-y: auto;
+    transition: border-color 0.2s;
+}
+
+.msg-box:hover {
+    border-color: var(--primary-light);
+}
+
+.msg-text {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--text);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.reminder-section .btn.active {
+    background: var(--primary) !important;
+    color: #fff !important;
+    border-color: var(--primary) !important;
+}
+
+/* WhatsApp green */
+.btn-success.flex-fill,
+#waMsgBtn {
+    background: #25D366 !important;
+    border-color: #25D366 !important;
+}
+
+.btn-success.flex-fill:hover,
+#waMsgBtn:hover {
+    background: #1da851 !important;
+    border-color: #1da851 !important;
+}
+
+@media (max-width: 576px) {
+    .contact-card .btn { font-size: 0.8rem; min-height: 44px; }
+    .reminder-section { padding: 0.75rem; }
+    .msg-text { font-size: 0.8rem; }
+}
