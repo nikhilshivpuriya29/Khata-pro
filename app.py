@@ -6,6 +6,7 @@ from models import db, User
 from auth import auth_bp
 from routes import main_bp
 from reports import reports_bp
+from bulk_import import import_bp
 from translations import TRANSLATIONS, get_text
 
 
@@ -28,6 +29,7 @@ def create_app():
     app.register_blueprint(auth_bp)
     app.register_blueprint(main_bp)
     app.register_blueprint(reports_bp)
+    app.register_blueprint(import_bp)
 
     with app.app_context():
         db.create_all()

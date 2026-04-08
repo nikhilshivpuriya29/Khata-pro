@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% block title %}{{ t('import_data') }} — {{ t('app_name') }}{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h3><i class="bi bi-cloud-upload me-2"></i>{{ t('import_data') }}</h3>
+</div>
+
+<div class="row g-4 justify-content-center">
+    <!-- Import Customers -->
+    <div class="col-12 col-md-6">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body p-4">
+                <div class="text-center mb-3">
+                    <div class="stat-icon bg-primary-subtle text-primary mx-auto mb-2"><i class="bi bi-people-fill"></i></div>
+                    <h5 class="fw-bold">{{ t('import_customers') }}</h5>
+                    <p class="text-muted small">{{ t('import_customers_desc') }}</p>
+                </div>
+
+                <!-- Download Template -->
+                <a href="{{ url_for('bulk.download_customer_template') }}" class="btn btn-outline-primary w-100 mb-3">
+                    <i class="bi bi-download me-2"></i>{{ t('download_template') }}
+                </a>
+
+                <!-- Required Fields Info -->
+                <div class="alert alert-info small py-2 mb-3">
+                    <i class="bi bi-info-circle me-1"></i>
+                    {{ t('required_fields') }}: <span class="fw-semibold">full_name, phone, address_street/address_city</span>
+                </div>
+
+                <!-- Upload Form -->
+                <form method="POST" action="{{ url_for('bulk.import_customers') }}" enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <div class="mb-3">
+                        <label class="form-label">{{ t('select_file') }} (.csv, .xlsx)</label>
+                        <input type="file" name="file" class="form-control" accept=".csv,.xlsx,.xls" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="bi bi-upload me-2"></i>{{ t('upload_customers') }}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import Transactions -->
+    <div class="col-12 col-md-6">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body p-4">
+                <div class="text-center mb-3">
+                    <div class="stat-icon bg-warning-subtle text-warning mx-auto mb-2"><i class="bi bi-journal-arrow-up"></i></div>
+                    <h5 class="fw-bold">{{ t('import_transactions') }}</h5>
+                    <p class="text-muted small">{{ t('import_txn_desc') }}</p>
+                </div>
+
+                <a href="{{ url_for('bulk.download_txn_template') }}" class="btn btn-outline-warning w-100 mb-3">
+                    <i class="bi bi-download me-2"></i>{{ t('download_template') }}
+                </a>
+
+                <div class="alert alert-warning small py-2 mb-3">
+                    <i class="bi bi-exclamation-triangle me-1"></i>
+                    {{ t('import_txn_note') }}
+                </div>
+
+                <form method="POST" action="{{ url_for('bulk.import_transactions') }}" enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <div class="mb-3">
+                        <label class="form-label">{{ t('select_file') }} (.csv, .xlsx)</label>
+                        <input type="file" name="file" class="form-control" accept=".csv,.xlsx,.xls" required>
+                    </div>
+                    <button type="submit" class="btn btn-warning w-100">
+                        <i class="bi bi-upload me-2"></i>{{ t('upload_transactions') }}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CSV Format Guide -->
+<div class="card border-0 shadow-sm mt-4">
+    <div class="card-header"><i class="bi bi-file-earmark-spreadsheet me-2"></i>{{ t('format_guide') }}</div>
+    <div class="card-body">
+        <h6 class="fw-semibold">{{ t('customer_columns') }}</h6>
+        <div class="table-responsive mb-3">
+            <table class="table table-sm table-bordered mb-0">
+                <thead class="table-light">
+                    <tr><th>{{ t('column') }}</th><th>{{ t('required_q') }}</th><th>{{ t('example') }}</th></tr>
+                </thead>
+                <tbody class="small">
+                    <tr><td>full_name</td><td><span class="badge bg-danger">{{ t('yes') }}</span></td><td>Ramesh Kumar</td></tr>
+                    <tr><td>phone</td><td><span class="badge bg-danger">{{ t('yes') }}</span></td><td>9876543210</td></tr>
+                    <tr><td>address_street</td><td><span class="badge bg-danger">{{ t('yes') }}*</span></td><td>123 Main Bazaar</td></tr>
+                    <tr><td>address_city</td><td><span class="badge bg-danger">{{ t('yes') }}*</span></td><td>Jaipur</td></tr>
+                    <tr><td>father_name</td><td><span class="badge bg-secondary">{{ t('no') }}</span></td><td>Suresh Kumar</td></tr>
+                    <tr><td>aadhaar</td><td><span class="badge bg-secondary">{{ t('no') }}</span></td><td>123456789012</td></tr>
+                    <tr><td>address_district</td><td><span class="badge bg-secondary">{{ t('no') }}</span></td><td>Jaipur</td></tr>
+                    <tr><td>address_state</td><td><span class="badge bg-secondary">{{ t('no') }}</span></td><td>Rajasthan</td></tr>
+                    <tr><td>address_pin</td><td><span class="badge bg-secondary">{{ t('no') }}</span></td><td>302001</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="small text-muted">* {{ t('address_note') }}</p>
+
+        <h6 class="fw-semibold mt-3">{{ t('transaction_columns') }}</h6>
+        <div class="table-responsive">
+            <table class="table table-sm table-bordered mb-0">
+                <thead class="table-light">
+                    <tr><th>{{ t('column') }}</th><th>{{ t('required_q') }}</th><th>{{ t('example') }}</th></tr>
+                </thead>
+                <tbody class="small">
+                    <tr><td>customer_phone</td><td><span class="badge bg-danger">{{ t('yes') }}</span></td><td>9876543210</td></tr>
+                    <tr><td>txn_type</td><td><span class="badge bg-danger">{{ t('yes') }}</span></td><td>credit / debit</td></tr>
+                    <tr><td>amount</td><td><span class="badge bg-danger">{{ t('yes') }}</span></td><td>5000</td></tr>
+                    <tr><td>purchase_date</td><td><span class="badge bg-secondary">{{ t('no') }}</span></td><td>2026-01-15</td></tr>
+                    <tr><td>promised_date</td><td><span class="badge bg-secondary">{{ t('no') }}</span></td><td>2026-02-15</td></tr>
+                    <tr><td>item_description</td><td><span class="badge bg-secondary">{{ t('no') }}</span></td><td>10 bags cement</td></tr>
+                    <tr><td>note</td><td><span class="badge bg-secondary">{{ t('no') }}</span></td><td>Monthly supply</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
